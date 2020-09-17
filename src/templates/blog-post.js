@@ -37,7 +37,10 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
             {post.frontmatter.date}
           </p>
         </header>
-        <section dangerouslySetInnerHTML={{ __html: post.html }} />
+        <section
+          style={{ fontFamily: "sans-serif" }}
+          dangerouslySetInnerHTML={{ __html: post.html }}
+        />
       </article>
       <hr
         style={{
