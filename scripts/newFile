@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+import sys
+import os
+import datetime
+
+try:
+  rootdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+  blogfilesdir = os.path.join(rootdir, 'content/blog/')
+
+  filename = sys.argv[1]
+  dirname = os.path.join(blogfilesdir, os.path.dirname(filename))
+  basename = os.path.basename(filename)
+  fullpath = os.path.join(dirname, basename)
+  fullpath = fullpath + '.md' if not fullpath.endswith('.md') else fullpath
+
+  # print(blogfilesdir, dirname)
+  # print(os.path.basename(filename))
+  # print(filename)
+  # print(fullpath)
+
+  if (os.path.exists(fullpath)):
+    yes = input("File " + fullpath + " already exists. Do you wish to overwrite it? (Y/N): ")
+    if not (yes and yes[0].lower() == 'y'):
+      exit(0)
+
+  # make the directory for it
+  os.makedirs(dirname, exist_ok=True)
+
+  description = input("Enter a description: ")
+  categories = input("Enter any categories associated separated by a comma (,): ")
+
+  template = '''---
+  title: {}
+  date: "{}"
+  description: "{}"
+  categories: {}
+  ---
+  '''.format(basename.capitalize(), datetime.datetime.now(), description, list(map(str.strip, categories.split(','))))
+
+  with open(fullpath, 'w') as fp:
+    fp.write(template)
+    print("Created new blog:", fullpath)
+
+  print("Done.")
+except KeyboardInterrupt:
+  print("\nExiting...")
