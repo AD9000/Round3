@@ -6,6 +6,19 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 
+const BlogContent = ({ post }) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "100%",
+      }}
+      dangerouslySetInnerHTML={{ __html: post.html }}
+    />
+  )
+}
+
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark
   // const siteTitle = data.site.siteMetadata.title
@@ -37,10 +50,10 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
             {post.frontmatter.date}
           </p>
         </header>
-        <section
-          style={{ fontFamily: "sans-serif" }}
-          dangerouslySetInnerHTML={{ __html: post.html }}
-        />
+        <section style={{ fontFamily: "sans-serif", display: "flex" }}>
+          {/* <h1>yeet</h1> */}
+          <BlogContent post={post} />
+        </section>
       </article>
       <hr
         style={{
@@ -58,9 +71,13 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
           }}
         >
           <li>
-            {previous && (
+            {previous ? (
               <Link to={previous.fields.slug} rel="prev">
                 ← {previous.frontmatter.title}
+              </Link>
+            ) : (
+              <Link to={"/"} rel="prev">
+                ← {"Home"}
               </Link>
             )}
           </li>

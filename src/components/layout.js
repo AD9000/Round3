@@ -91,14 +91,14 @@ const Layout = ({ location, title, children }) => {
     >
       <div className="sidebar">
         <div
-          className="md:h-screen p-4 flex flex-col justify-center items-center"
+          className="lg:h-screen p-4 flex flex-col justify-center items-center"
           style={{ minHeight: 200 }}
         >
           {header}
         </div>
       </div>
 
-      <div className="main-content relative">
+      <div className="main-content">
         <main>{children}</main>
         <Footer />
       </div>

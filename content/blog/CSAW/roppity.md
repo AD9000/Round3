@@ -10,7 +10,7 @@ To start off, when we enter some input we find that the program readily segfault
 
 ![Segfaults easily lol](../../assets/segfaulted.png)
 
-Then using a disassembler (here I am using binaryninja, but you can use anyone you like), we find out that we're inputting into a buffer of size `0x20` using the `gets()` call.  
+Then using a disassembler (here I am using binaryninja, but you can use any one you like), we find out that we're inputting into a buffer of size `0x20` using the `gets()` call.  
 Since `rbp` is first to be pushed onto the stack, and the buffer size being offset from `rbp`, the total padding required is:
 
 0x20 + 8 bytes for rbp = **40 bytes**
@@ -43,7 +43,7 @@ if args.REMOTE:
 else:
         p = process(PROGNAME)
         elf = p.elf
-        libcelf = ELF('<system elf path>')
+        libcelf = ELF('<system libc path>')
         gdb.attach(p)
 
 # Requires 40 bytes of padding
