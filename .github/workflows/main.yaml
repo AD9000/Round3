@@ -1,7 +1,9 @@
 name: build
 
 # Run this workflow every time a new commit pushed to your repository
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
 
 jobs:
   # Set the job key. The key is displayed as the job name
@@ -10,4 +12,9 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-node
+        with:
+          node-version: 12
+      - run: npm install -g yarn
+      - run: yarn install --frozen-lockfile
       - run: yarn build
