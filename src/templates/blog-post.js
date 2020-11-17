@@ -6,6 +6,9 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 
+// import { DeckdeckgoHighlightCodeCarbonTheme } from "@deckdeckgo/highlight-code/dist/collection/declarations/deckdeckgo-highlight-code-carbon-theme"
+// deckDeckGoHighlightElement()
+
 const BlogContent = ({ post }) => {
   return (
     <div
@@ -21,7 +24,6 @@ const BlogContent = ({ post }) => {
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.markdownRemark
-  // const siteTitle = data.site.siteMetadata.title
   const { previous, next } = pageContext
 
   return (
@@ -51,16 +53,20 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
           </p>
         </header>
         <section style={{ fontFamily: "sans-serif", display: "flex" }}>
-          {/* <h1>yeet</h1> */}
           <BlogContent post={post} />
         </section>
+
+        {/* <DeckdeckgoHighlightCodeCarbonTheme>
+          <code slot="code">console.log('Hello World');</code>
+        </DeckdeckgoHighlightCodeCarbonTheme> */}
       </article>
-      <hr
+
+      {/* <hr
         style={{
           marginBottom: rhythm(1),
         }}
-      />
-      <nav>
+      /> */}
+      <nav style={{ marginTop: rhythm(0.5) }}>
         <ul
           style={{
             display: `flex`,
