@@ -6,7 +6,7 @@ import { ThemeToggler } from "gatsby-plugin-dark-mode"
 import { DarkModeMoon } from "./DarkModeIndicator"
 import { LightModeSun } from "./LightModeIndicator"
 
-const toggle = (
+const Toggle = () => (
   <ThemeToggler>
     {({ toggleTheme, theme }) => {
       const isDarkMode = theme === "dark"
@@ -34,13 +34,14 @@ interface HeaderProps {
 const Header = ({ title }: HeaderProps) => {
   return (
     <>
-      {toggle}
+      <Toggle />
       <h2
         style={{
           ...scale(1),
           marginBottom: 0,
           marginTop: 0,
           fontFamily: `Montserrat, sans-serif`,
+          whiteSpace: "nowrap",
         }}
       >
         <Link
