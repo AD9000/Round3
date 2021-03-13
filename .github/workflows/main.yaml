@@ -6,8 +6,6 @@ on:
     branches: [master]
 
 jobs:
-  # Set the job key. The key is displayed as the job name
-  # when a job name is not provided
   build:
     name: build
     runs-on: ubuntu-latest
