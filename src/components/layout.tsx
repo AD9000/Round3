@@ -8,7 +8,6 @@ import AppTheme from "./Theme"
 import "./global.css"
 
 const useStyles = makeStyles((theme: Theme) => {
-  console.log("theme: ", theme)
   return {
     respDir: {
       display: "flex",
@@ -38,10 +37,10 @@ const LayoutThemed = ({ title, children }) => {
       }}
       className={classes.respDir}
     >
-      <Grid item md={5} lg={4} xl={3} className={classes.respBar}>
+      <Grid item container md={5} lg={4} xl={3} className={classes.respBar}>
         <Sidebar title={title} />
       </Grid>
-      <Grid item md={7} lg={8} xl={9}>
+      <Grid item container md={7} lg={8} xl={9}>
         <MainContent>{children}</MainContent>
       </Grid>
     </Grid>

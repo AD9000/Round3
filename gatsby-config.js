@@ -9,7 +9,7 @@ module.exports = {
     description: `A fun journey into my CTF exploits`,
     siteUrl: `https://atharvdamle.com`,
   },
-  plugins: [
+  plugins: [`gatsby-theme-material-ui`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {

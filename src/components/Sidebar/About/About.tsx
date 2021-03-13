@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     boxShadow: "none",
   },
   dockIcon: {
-    color: theme.palette.common.white,
+    color: "var(--textNormal)",
     fontSize: "60px",
     margin: "15px 10px",
     transition: "transform 0.2s",
