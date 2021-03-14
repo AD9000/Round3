@@ -15,6 +15,8 @@ const useStyles = () =>
       justifyContent: "center",
       padding: "1% 2%",
       backgroundColor: "var(--lightBg)",
+      flex: "1 1 auto",
+      // height: "100vh",
     },
   })()
 

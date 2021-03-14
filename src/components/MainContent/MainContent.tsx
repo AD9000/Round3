@@ -5,9 +5,15 @@ import { makeStyles } from "@material-ui/styles"
 
 const useStyles = () =>
   makeStyles({
-    mainFlex: { display: "flex", flex: 1 },
+    mainFlex: {
+      display: "flex",
+      flex: 1,
+      overflowY: "auto",
+    },
     mainWrapper: {
+      overflow: "auto",
       padding: "1% 5%",
+      marginLeft: "1%",
       backgroundColor: "var(--bg)",
     },
   })()

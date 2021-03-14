@@ -5,15 +5,32 @@ description: "First ROP challenge from CSAW ctf 2020"
 categories: ["code"]
 ---
 
-Here's the simple ROP challenge from the CSAW 2020 qualifiers.  
+Here's the simple ROP challenge from the CSAW 2020 qualifiers.
+
+### The Challenge
+
+_Welcome to pwn!_
+
+```shell
+nc pwn.chal.csaw.io 5016
+```
+
+Along with 2 files, Rop, the binary, and libc-2.27.so
+
+### Running this random binary...
+
 To start off, when we enter some input we find that the program readily segfaults.
 
 ![Segfaults easily lol](../../assets/segfaulted.png)
+
+### Buffer calculations
 
 Then using a disassembler (here I am using binaryninja, but you can use any one you like), we find out that we're inputting into a buffer of size `0x20` using the `gets()` call.  
 Since `rbp` is first to be pushed onto the stack, and the buffer size being offset from `rbp`, the total padding required is:
 
 0x20 + 8 bytes for rbp = **40 bytes**
+
+### Leaking a libc address
 
 Since there is no win function, next thing we need is a way to pop the shell. There don't seem to be enough rop gadgets to pop a shell, and with the NX functionality enabled, it doesn't seem like we can use any shellcode.
 
@@ -22,8 +39,12 @@ Since there is no win function, next thing we need is a way to pop the shell. Th
 In that case, the only thing to do is leak a libc address using the classic `puts(puts)` idea. We print out the address of puts in the GOT which should contain the address of puts in libc, by jumping to `puts@plt`.  
 **Note:** We don't need to leak a code address since there is no PIE
 
+### Rop chain generation
+
 Once we have the leak, since we know the libc version, the next problem is to run the gets call again, so that we can send in the the rop chain we generate from the libc.
 To do this, we jump back to the main function, get it to repair the currently destroyed stack, and then enter in our ropchain.
+
+### Tl;dr, gimme the code
 
 The whole script is as follows.
 

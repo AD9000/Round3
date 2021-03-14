@@ -14,11 +14,19 @@ const useStyles = makeStyles((theme: Theme) => {
       [theme.breakpoints.down("sm")]: {
         flexDirection: "column",
       },
+      [theme.breakpoints.up("md")]: {
+        height: "100vh",
+      },
     },
     respBar: {
       display: "flex",
       [theme.breakpoints.down("sm")]: {
-        minHeight: "35vh",
+        height: "35vh",
+      },
+    },
+    respMain: {
+      [theme.breakpoints.up("md")]: {
+        height: "100vh",
       },
     },
   }
@@ -33,14 +41,33 @@ const LayoutThemed = ({ title, children }) => {
         backgroundColor: "var(--bg)",
         color: "var(--textNormal)",
         transition: "color 0.2s ease-out, background 0.2s ease-out",
-        minHeight: "100vh",
+        // overflow: "auto",
       }}
       className={classes.respDir}
     >
-      <Grid item container md={5} lg={4} xl={3} className={classes.respBar}>
+      <Grid
+        item
+        container
+        xs={12}
+        md={4}
+        lg={3}
+        className={classes.respBar}
+        style={{ flex: "0 0 auto" }}
+      >
         <Sidebar title={title} />
       </Grid>
-      <Grid item container md={7} lg={8} xl={9}>
+      <Grid
+        item
+        container
+        xs={12}
+        md={8}
+        lg={9}
+        style={{
+          flex: "1 1 auto",
+          overflow: "auto",
+        }}
+        className={classes.respMain}
+      >
         <MainContent>{children}</MainContent>
       </Grid>
     </Grid>

@@ -1,5 +1,10 @@
 @tailwind utilities;
 
+html,
+body {
+  overflow-y: visible;
+}
+
 body {
   --bg: #fff;
   --lightBg: #f5f5f5;
@@ -41,6 +46,16 @@ h5,
 h6,
 blockquote {
   color: var(--textTitle);
+}
+
+h2,
+h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 0;
 }
 
 h3 {
