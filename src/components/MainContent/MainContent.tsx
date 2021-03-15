@@ -16,13 +16,23 @@ const useStyles = () =>
       marginLeft: "1%",
       backgroundColor: "var(--bg)",
     },
+    mainBox: {
+      flexDirection: "column",
+      "& article": {
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "100%",
+      },
+    },
   })()
 
 const MainContent = ({ children }) => {
   const classes = useStyles()
   return (
     <div className={`${classes.mainFlex} ${classes.mainWrapper}`}>
-      <main className={classes.mainFlex}>{children}</main>
+      <main className={`${classes.mainFlex} ${classes.mainBox}`}>
+        {children}
+      </main>
       {/* <Footer /> */}
     </div>
   )
