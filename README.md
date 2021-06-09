@@ -1,3 +1,3 @@
 # Atharv's Blog
 
-Live at: [blog.atharvdamle.com](https://blog.atharvdamle.com) :)
+Live at: [atharvdamle.com](https://atharvdamle.com) :)
