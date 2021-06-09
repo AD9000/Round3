@@ -48,7 +48,7 @@ const BlogIndex = ({
 
   return (
     <Layout location={location} title={siteTitle}>
-      <SEO title="All posts" />
+      <SEO title="Looking into Security Concepts and Vulnerabilities in my spare time" />
       {posts.map(({ node }) => {
         const title = node.frontmatter.title || node.fields.slug
         return (

