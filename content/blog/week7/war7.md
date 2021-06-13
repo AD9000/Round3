@@ -16,15 +16,16 @@ Heap exploits have generally been hard for me to wrap my head around, and they e
 Lets start with a basic heap exploit. The classic use-after-free. Because there are no checks for whether a part of the heap was freed or not before writing to it, it is rather easy to corrupt heap memory, manipulating it so that it allows for arbitrary reads and writes.
 
 For the first one, we:
-  - Malloc and then free 3 nodes.
-    1. Currently the bins looks like: 2 -> 1 -> 0 -> NULL (nodes are not in order)
-  2. Then we print out the address stored in free nodes 1 or 2, which points to an address on the heap
-  3. Now that we have a heap address, we can forge a chunk by offseting the start of a legitimate chunk such that the name string overlaps with the function pointer.
-    1. The new bins look like: 1 -> 2 -> Forged -> (garbage)
-  4. Then we malloc 2 new chunks to empty the bins
-  5. Finally we malloc our forged chunk.
-  6. Write to this forged chunk, which ends up overwriting the function pointer of another chunk. Overwrite with the address of the `win` function and the `0x6447` parameter
-  7. `cat flag`
+
+1. Malloc and then free 3 nodes.
+   1. Currently the bins looks like: 2 -> 1 -> 0 -> NULL (nodes are not in order)
+2. Then we print out the address stored in free nodes 1 or 2, which points to an address on the heap
+3. Now that we have a heap address, we can forge a chunk by offseting the start of a legitimate chunk such that the name string overlaps with the function pointer.
+   1. The new bins look like: 1 -> 2 -> Forged -> (garbage)
+4. Then we malloc 2 new chunks to empty the bins
+5. Finally we malloc our forged chunk.
+6. Write to this forged chunk, which ends up overwriting the function pointer of another chunk. Overwrite with the address of the `win` function and the `0x6447` parameter
+7. `cat flag`
 
 ```python
 #!/usr/bin/python3
