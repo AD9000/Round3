@@ -5,8 +5,6 @@ description: "Expanding on the buffer overflow to ShellCode, and methods to writ
 categories: ["code"]
 ---
 
-# Ah, So Now We're Injecting Machine Code
-
 ## Chall2.png
 
 ---

@@ -4,20 +4,11 @@ date: "2020-06-16 21:04:31.582772"
 description: "A first look at pwntools"
 categories: ["code"]
 ---
-
-# Hi Pwntools, Goodbye Shell Scripts
-
 ## Intro
 
 ---
 
-## FLAG{REDACTED}
-
----
-
-Tl;dr: use pwntools. Interact with the process using pwntools and use rabin2 -z to get the strings from the file. Profit.
-
----
+**Tl;dr: use pwntools. Interact with the process using pwntools and use rabin2 -z to get the strings from the file. Profit.**
 
 In this challenge we have an unknown file 'intro' which would give us a hint to the flag. Time to get into it.
 
@@ -62,7 +53,6 @@ In this challenge we have an unknown file 'intro' which would give us a hint to 
 
 6. The final step is to use the `interactive()` function from `pwnlib.tubes` to interact with the shell that the process spawns on finishing all the challenges. Run `cat flag` to get the flag in the directory.
 
----
 
 This makes the final script to run the following.
 
@@ -104,21 +94,13 @@ p.interactive()                                     # Interactivity!
 
 1. One thing that helped me in my endeavors is the `DEBUG` flag. On running the script with the flag, it prints all debug output like what data was received from the spawned process, which is amazing for debugging.
 
----
-
----
 
 ## Too-Slow
 
 ---
 
-## FLAG{REDACTED}
+**Tl;dr: Pwntools is pretty cool. You can pass multiple delimiters to `readuntil()`!**
 
----
-
-Tl;dr: Pwntools is pretty cool. You can pass multiple delimiters to `readuntil()`!
-
----
 
 We come across a strange file named 'too-slow'. Time to analyze it.
 
@@ -142,7 +124,6 @@ We come across a strange file named 'too-slow'. Time to analyze it.
 4. Now, you have two ways to fix this. Either brute force it, finding the number of problems the program asks you to solve or use the `readuntil()` function better. Using the DEBUG flag to understand the format of the inut, you see that there are essentially 3 types of lines. _Correct Answer\n_, _number + number =_, _Well done\n_. On looking at the pwntools documentation, you see that `readuntil()` accepts a list of delimiters. Using this information you can parse the input better to solve the problem.
 5. Lastly, you need the `interactive` method again to talk to the shell that was spawned.
 
----
 
 So the final script was
 
@@ -167,24 +148,9 @@ while (run('Well done!')):                                     # While there is 
 p.interactive()                                                # Talking to the shell
 ```
 
----
 
 ## Conclusion
 
 ---
 
 Pwntools truly is amazing. I look forward to using the other features too.
-
----
-
----
-
-## An After-thought
-
----
-
-We were told that the flags are unique for each student. But they generate different flags for what I presume is time and session.
-
-_So if I run my code on remote more than once..._ :)
-
----

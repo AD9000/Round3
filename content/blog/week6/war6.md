@@ -5,12 +5,6 @@ description: "Using ROP technique to exploit binaries really makes you realize h
 categories: ["code"]
 ---
 
-# Pop Instructions Should be Illegal
-
-_- Atharv Damle _
-
----
-
 ## swrop
 
 ---

@@ -5,8 +5,6 @@ description: "A set of simple buffer overflow challenges"
 categories: ["code"]
 ---
 
-# Bro Do You Even Bof?
-
 ## Chall1.png
 
 ---
@@ -54,10 +52,6 @@ Since I won't talk about what commands I executed unless it is important, here's
 
 ---
 
-FLAG{REDACTED}
-
----
-
 Very simple buffer overflow:
 
 1. Fill the buffer with padding (64 bytes from the disassembly)
@@ -80,10 +74,6 @@ p.interactive()
 ```
 
 ## Blind
-
----
-
-FLAG{REDACTED}
 
 ---
 
@@ -120,10 +110,6 @@ p.interactive()
 
 ---
 
-FLAG{REDACTED}
-
----
-
 Ah yes. Fake canaries.
 
 1. While I was told that this would be a canary challenge, `checksec` did not say the same thing. Somehow I believe `checksec` more.
@@ -145,10 +131,6 @@ p.interactive()
 ```
 
 ## Stack-dump
-
----
-
-FLAG{REDACTED}
 
 ---
 

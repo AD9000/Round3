@@ -52,8 +52,8 @@ const BlogIndex = ({
       {posts.map(({ node }) => {
         const title = node.frontmatter.title || node.fields.slug
         return (
-          <article key={node.fields.slug}>
-            <header style={{ marginBottom: rhythm(1 / 4) }}>
+          <article key={node.fields.slug} style={{ marginBottom: rhythm(0.6) }}>
+            <header style={{ marginBottom: rhythm(1 / 2) }}>
               <h3
                 style={{
                   fontSize: rhythm(1.1),
@@ -64,7 +64,9 @@ const BlogIndex = ({
                   {title}
                 </Link>
               </h3>
-              <small>{node.frontmatter.date}</small>
+              <small style={{ color: "var(--textTitleTime)" }}>
+                {node.frontmatter.date}
+              </small>
             </header>
             <section>
               <p

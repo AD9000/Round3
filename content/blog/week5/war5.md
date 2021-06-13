@@ -5,10 +5,6 @@ description: "Exploiting the use of improper fgets to grab a shell :)"
 categories: ["code"]
 ---
 
-# So You Think Fgets is Safe?
-
-_- Atharv Damle _
-
 ## Shellcrack
 
 ---

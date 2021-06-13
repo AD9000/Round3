@@ -17,6 +17,7 @@ const useStyles = () =>
       backgroundColor: "var(--lightBg)",
       flex: "1 1 auto",
       // height: "100vh",
+      color: "#e0e0e0",
     },
   })()
 

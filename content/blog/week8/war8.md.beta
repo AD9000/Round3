@@ -1,11 +1,10 @@
 ---
-title: Nothing Seems Hard Anymore, I've Solved Heap Exploits
+title: Pivot!
 date: "2020-07-24 12:16:11.582772"
 description: "Destroying the stack and getting shells with stack pivots"
+author: Atharv Damle
 categories: ["code"]
 ---
-
-# Nothing Seems Hard Anymore, I've Solved Heap Exploits
 
 ## bsl
 

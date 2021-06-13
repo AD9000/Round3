@@ -5,10 +5,6 @@ description: "Exploiting format string vulnerabilites, but with ASLR turned on t
 categories: ["code"]
 ---
 
-# %X%x**ASLR**%x%X
-
-_- Atharv Damle _
-
 ## door
 
 ---
