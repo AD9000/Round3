@@ -276,6 +276,4 @@ while(True):
 p.interactive()
 ```
 
-## Conclusion
-
 ---

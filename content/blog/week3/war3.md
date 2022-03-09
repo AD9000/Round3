@@ -222,4 +222,4 @@ Wow, you weren't lying when you said `make sure to print, read and memorise the 
 
 Overall, shellcode was pretty fun.
 
-> `All we need now is for someone to make a JavaScript plugin for this`
+> _All we need now is for someone to make a JavaScript plugin for this_
